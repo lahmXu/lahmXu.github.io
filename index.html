@@ -248,6 +248,522 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/K8s%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lahmxu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lahmxu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/19/K8s%E5%85%A5%E9%97%A8/" itemprop="url">K8s入门</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-19T14:48:39+08:00">
+                2019-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index">
+                    <span itemprop="name">k8s</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h1><p><img src="/images/EB6EDD19-F7E7-445B-B35C-0B570E411FD5.png" alt=""></p>
+<p><img src="/i/BA64038A-100C-4BEA-9731-8F44FE00DED6.png" alt=""></p>
+<ul>
+<li><p>它被宿主机操作系统隔离了，它看不到宿主机上的其他进程，以为自己就是pid为1的进程</p>
+</li>
+<li><p>它被宿主机操作系统限制了硬件资源，它能使用的cpu、内存等硬件资源只是宿主机的一部分</p>
+</li>
+<li><p>在被宿主机操作系统限制了存储空间，让这个进程认为宿主机的某个目录就是系统根目录</p>
+</li>
+</ul>
+<p><code>Namespace做隔离，Cgroups做限制，rootfs做文件系统</code></p>
+<p><code>容器是操作系统层级的虚拟化，而虚拟机是硬件层级的虚拟化。—本质区别</code></p>
+<h3 id="为什么用K8s？"><a href="#为什么用K8s？" class="headerlink" title="为什么用K8s？"></a>为什么用K8s？</h3><ul>
+<li><p><strong>自愈</strong>重新启动失败的容器，在节点不可用时，替换和重新调度节点上的容器，对用户定义的健康检查不响应的容器会被中止，并且在容器准备好服务之前不会把其向客户端广播。</p>
+</li>
+<li><p><strong>弹性伸缩</strong>通过监控容器的cpu的负载值,如果这个平均高于80%,增加容器的数量,如果这个平均低于10%,减少容器的数量</p>
+</li>
+<li><p><strong>服务的自动发现和负载均衡</strong> 不需要修改您的应用程序来使用不熟悉的服务发现机制，Kubernetes 为容器提供了自己的 IP 地址和一组容器的单个 DNS 名称，并可以在它们之间进行负载均衡。</p>
+</li>
+<li><p><strong>滚动升级和一键回滚</strong> Kubernetes 逐渐部署对应用程序或其配置的更改，同时监视应用程序运行状况，以确保它不会同时终止所有实例。 如果出现问题，Kubernetes会为您恢复更改，利用日益增长的部署解决方案的生态系统。</p>
+</li>
+</ul>
+<p><strong>容器的本质是进程，Kuberbetes的本质是操作系统。</strong></p>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><ul>
+<li><p>节点：Kubernetes集群中的一台物理机或者虚拟机。</p>
+</li>
+<li><p>集群：位于Internet防火墙后的节点，这是kubernetes管理的主要计算资源。</p>
+</li>
+<li><p>边界路由器：为集群强制执行防火墙策略的路由器。 这可能是由云提供商或物理硬件管理的网关。</p>
+</li>
+<li><p>集群网络：一组逻辑或物理链接，可根据Kubernetes <a href="https://kubernetes.io/docs/admin/networking/" target="_blank" rel="noopener">网络模型</a> 实现群集内的通信。 集群网络的实现包括Overlay模型的  <a href="https://github.com/coreos/flannel#flannel" target="_blank" rel="noopener">flannel</a>  和基于SDN的 <a href="https://kubernetes.io/docs/admin/ovs-networking/" target="_blank" rel="noopener">OVS</a> 。</p>
+</li>
+<li><p>服务：使用标签选择器标识一组pod成为的Kubernetes <a href="https://kubernetes.io/docs/user-guide/services/" target="_blank" rel="noopener">服务</a> 。 除非另有说明，否则服务假定在集群网络内仅可通过虚拟IP访问。</p>
+</li>
+</ul>
+<h4 id="k8s集群"><a href="#k8s集群" class="headerlink" title="k8s集群"></a>k8s集群</h4><ol>
+<li><p>基本结构</p>
+<p><a href="https://lahmxu.github.io/2019/12/19/K8s基本组成/" target="_blank" rel="noopener">Kubernetes集群组成</a></p>
+</li>
+<li><p>Pod</p>
+<p>[K8s Pod](<a href="https://lahmxu.github.io/2019/12/19/K8s" target="_blank" rel="noopener">https://lahmxu.github.io/2019/12/19/K8s</a> Pod/)</p>
+</li>
+<li><p>Controller</p>
+<p>[K8s Controller](<a href="https://lahmxu.github.io/2019/12/19/K8s" target="_blank" rel="noopener">https://lahmxu.github.io/2019/12/19/K8s</a> Controller/)</p>
+</li>
+<li><p>Service </p>
+<p>[K8s Service](<a href="https://lahmxu.github.io/2019/12/19/K8s" target="_blank" rel="noopener">https://lahmxu.github.io/2019/12/19/K8s</a> Service/)</p>
+</li>
+<li><p>PV&amp;PVC</p>
+<p><a href="https://blog.csdn.net/xts_huangxin/article/details/51494472" target="_blank" rel="noopener">K8s PV&amp;PVC</a> </p>
+</li>
+<li><p>ConfigMap&amp;Secret</p>
+<p><a href="https://www.kubernetes.org.cn/3400.html" target="_blank" rel="noopener">ConfigMapSecret</a></p>
+<ul>
+<li><p>ConfigMap：存储配置信息</p>
+</li>
+<li><p>Secret ：存储秘钥和密码之类的信息</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="什么是声明式API？声明式API的使用"><a href="#什么是声明式API？声明式API的使用" class="headerlink" title="什么是声明式API？声明式API的使用"></a>什么是声明式API？声明式API的使用</h3><p><strong>为什么叫“声明”API ？</strong></p>
+<ol>
+<li>常用命令</li>
+</ol>
+<p><img src="/images/bVbrFZN.png" alt=""></p>
+<p>参考链接：<a href="https://segmentfault.com/a/1190000018950372" target="_blank" rel="noopener">Kubectl常用命令详解 - Kubernetes,Istio点滴 - SegmentFault 思否</a></p>
+<ol start="2">
+<li><p>kubectl create/replace和kubectl apply有什么不同？</p>
+<ul>
+<li><p>命令式配置文件操作，类似于Docker Swarm</p>
+</li>
+<li><p>声明式API</p>
+</li>
+</ul>
+</li>
+</ol>
+<p> <strong>不同点</strong></p>
+<ul>
+<li><p>命令式API对象是使用新的YAML文件中的API对象替换原有的API对象，而声明式API执行了对原有API对象的PATCH操作</p>
+</li>
+<li><p>声明式API一次可以处理多个写操作，具备merge的能力</p>
+<ol start="3">
+<li>滚动更新 </li>
+</ol>
+</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#新建yaml文件</span></span><br><span class="line"></span><br><span class="line"><span class="string">cat</span> <span class="string">&gt;</span> <span class="string">nginx-deployment.yaml</span> <span class="string">&lt;&lt;</span> <span class="string">EOF</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-deployment</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">nginx:1.7.9</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#创建Pod</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">apply</span> <span class="string">-f</span> <span class="string">nginx-deployment.yaml</span> <span class="string">--record</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看Pod创建状态</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">get</span> <span class="string">pod</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#用edit命令修改yaml文件</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">edit</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#使用rollout查看滚动更新过程</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">status</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看详细更新过程</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">describe</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看更新的replicaSet</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">get</span> <span class="string">rs</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#更改成错误的镜像1.7.9 --&gt; 1.91</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看当前rs pod状态</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#中止滚动更新</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">pause</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#恢复滚动更新</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">resume</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#回退</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#回退上一个版本</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">undo</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#回退指定版本</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">history</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">undo</span> <span class="string">deployment/nginx-deployment</span> <span class="string">--to-revision=2</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="三种部署方式"><a href="#三种部署方式" class="headerlink" title="三种部署方式"></a>三种部署方式</h3><ol>
+<li><p><a href="见下文">kubeadm安装</a></p>
+</li>
+<li><p><a href="bear://x-callback-url/open-note?id=79092069-EC2F-4B5D-9C66-D63A6002ECFB-721-0000682A1C954242" target="_blank" rel="noopener">minikube安装</a> </p>
+</li>
+<li><p><a href="bear://x-callback-url/open-note?id=59513F55-3EBB-4CF7-BDDF-94EDFAEA3738-81658-0001C8E81DC84061" target="_blank" rel="noopener">microK8s安装</a></p>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/K8s%20deploy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lahmxu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lahmxu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/19/K8s%20deploy/" itemprop="url">K8s deploy</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-19T23:43:20+08:00">
+                2019-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index">
+                    <span itemprop="name">k8s</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="minikube部署"><a href="#minikube部署" class="headerlink" title="minikube部署"></a>minikube部署</h2><ol>
+<li><p>安装机器ubuntu18,大于2核</p>
+</li>
+<li><p>切换root用户</p>
+</li>
+<li><p>开始教程之前先安装docker</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install docker.io</span><br></pre></td></tr></table></figure></li>
+<li><p>添加kubectl</p>
+<ul>
+<li>step 1: 访问官方github网址：<a href="https://github.com/kubernetes/kubernetes/releases" target="_blank" rel="noopener">https://github.com/kubernetes/kubernetes/releases</a></li>
+<li>step 2: 找到想使用的发布版本，在每个发布版本的最后一行有类似“CHANGELOG-1.10.md”这样的内容，点击超链进入；</li>
+<li>step 3: 然后进入“Client Binaries”区域；</li>
+<li>step 4: 选择和目标机器系统匹配的二进制包下载；</li>
+<li>step 5: 解压缩，将kubectl放入/usr/local/bin目录；</li>
+</ul>
+</li>
+<li><p>下载并配置minikube</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">下载minikube国内阿里云，不要下载最新版，最新版有问题</span></span><br><span class="line">curl -Lo minikube http://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/releases/v1.2.0/minikube-linux-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube /usr/local/bin/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动minikube</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">指定不需要vm-driver</span></span><br><span class="line">minikube start --vm-driver=none --registry-mirror=https://registry.docker-cn.com</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开启dashboard</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看列表</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> minikube addons list</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">开启dashboard,开启heapster</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> minikube dashboard</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> minikube addons <span class="built_in">enable</span> heapster </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">查看dashboard是否安装成功</span></span><br><span class="line">kubectl log kubernetes-dashboard-xxxxx -n kube-system</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">创建svc-nodepart.yaml</span></span><br><span class="line">cat &gt; svc-nodepart.yaml &lt;&lt; EOF</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:	</span><br><span class="line">  name: netty</span><br><span class="line">  labels:</span><br><span class="line">    app: gateway-netty</span><br><span class="line">spec:</span><br><span class="line">  ports:</span><br><span class="line">  - port: 8843</span><br><span class="line">    name: gateway-netty</span><br><span class="line">    nodePort:30000</span><br><span class="line">  selector:</span><br><span class="line">    app: gateway-netty</span><br><span class="line">  type: NodePort</span><br><span class="line">EOF</span><br><span class="line"><span class="meta">#</span><span class="bash">创建端口映射</span></span><br><span class="line">kubectl apply -f svc-nodepart.yaml -n kube-system</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>参考链接：<br><a href="https://www.jianshu.com/p/18441c7434a6" target="_blank" rel="noopener">minikube国内安装步骤 - 简书</a><br>比较权威，但是仍然不对<a href="https://yq.aliyun.com/articles/221687?spm=a2c4e.11153940.0.0.59fb4cecfe6SsI&p=3#comments" target="_blank" rel="noopener">Minikube - Kubernetes本地实验环境-云栖社区-阿里云</a></p>
+<h2 id="microk8s-不完整"><a href="#microk8s-不完整" class="headerlink" title="microk8s(不完整)"></a>microk8s(不完整)</h2><p>参考链接：<br><a href="https://www.cnblogs.com/xiao987334176/p/10931290.html" target="_blank" rel="noopener">microk8s 搭建 - 肖祥 - 博客园</a></p>
+<ol>
+<li><p>安装snap</p>
+</li>
+<li><p>安装最新版microk8s<br>snap install microk8s —classic</p>
+</li>
+<li><p>安装docker<br>microk8s 1.14之后就不包含docker命令了，需要的可以下载之前的版本<br>snap install microk8s —classic —channel=1.13/stable</p>
+<p>apt-get install docker.io</p>
+</li>
+</ol>
+<h3 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h3><ol>
+<li>解决heapster镜像拉取问题<br>必看参考链接：<a href="https://segmentfault.com/a/1190000019534913?utm_source=tag-newest" target="_blank" rel="noopener">microk8s安装过程中遇到的几个问题 -  - SegmentFault 思否</a><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">拉取国内镜像</span></span><br><span class="line">docker pull mirrorgooglecontainers/$imageName:$imageVersion</span><br><span class="line"><span class="meta">#</span><span class="bash">重新标记</span></span><br><span class="line">docker tag  mirrorgooglecontainers/$imageName:$imageVersion k8s.gcr.io/$imageName:$imageVersion</span><br><span class="line"><span class="meta">#</span><span class="bash">保存到本地</span></span><br><span class="line">docker save k8s.gcr.io/$imageName:$imageVersion &gt; $imageName.tar</span><br><span class="line"></span><br><span class="line">microk8s.ctr -n k8s.io image import $imageName.tar</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">拉取国内镜像重新打包</span></span><br><span class="line">docker pull mirrorgooglecontainers/pause:3.1</span><br><span class="line">docker pull mirrorgooglecontainers/heapster-influxdb-amd64:v1.3.3</span><br><span class="line">docker pull mirrorgooglecontainers/heapster-grafana-amd64:v4.4.3</span><br><span class="line">docker pull mirrorgooglecontainers/kubernetes-dashboard-amd64:v1.8.3</span><br><span class="line">docker pull mirrorgooglecontainers/heapster-amd64:v1.5.2</span><br><span class="line">docker pull mirrorgooglecontainers/k8s-dns-dnsmasq-nanny-amd64:1.14.7</span><br><span class="line">docker pull mirrorgooglecontainers/k8s-dns-kube-dns-amd64:1.14.7</span><br><span class="line">docker pull mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.7</span><br><span class="line"></span><br><span class="line">docker tag mirrorgooglecontainers/pause:3.1 k8s.gcr.io/pause:3.1</span><br><span class="line">docker tag mirrorgooglecontainers/heapster-influxdb-amd64:v1.3.3 k8s.gcr.io/heapster-influxdb-amd64:v1.3.3</span><br><span class="line">docker tag mirrorgooglecontainers/heapster-grafana-amd64:v4.4.3 k8s.gcr.io/heapster-grafana-amd64:v4.4.3</span><br><span class="line">docker tag mirrorgooglecontainers/kubernetes-dashboard-amd64:v1.8.3 k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.3</span><br><span class="line">docker tag mirrorgooglecontainers/heapster-amd64:v1.5.2 k8s.gcr.io/heapster-amd64:v1.5.2</span><br><span class="line">docker tag mirrorgooglecontainers/k8s-dns-dnsmasq-nanny-amd64:1.14.7 gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.7</span><br><span class="line">docker tag mirrorgooglecontainers/k8s-dns-kube-dns-amd64:1.14.7 gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.7</span><br><span class="line">docker tag mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.7 gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.7</span><br><span class="line"></span><br><span class="line">docker save k8s.gcr.io/pause &gt; pause.tar</span><br><span class="line">docker save k8s.gcr.io/heapster-influxdb-amd64 &gt; heapster-influxdb-amd64.tar</span><br><span class="line">docker save k8s.gcr.io/heapster-grafana-amd64 &gt; heapster-grafana-amd64.tar</span><br><span class="line">docker save k8s.gcr.io/kubernetes-dashboard-amd64 &gt; kubernetes-dashboard-amd64.tar</span><br><span class="line">docker save k8s.gcr.io/heapster-amd64 &gt; heapster-amd64.tar</span><br><span class="line">docker save gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64 &gt; k8s-dns-dnsmasq-nanny-amd64.tar</span><br><span class="line">docker save gcr.io/google_containers/k8s-dns-kube-dns-amd64 &gt; k8s-dns-kube-dns-amd64.tar</span><br><span class="line">docker save gcr.io/google_containers/k8s-dns-sidecar-amd64 &gt; k8s-dns-sidecar-amd64.tar</span><br><span class="line"></span><br><span class="line">microk8s.ctr -n k8s.io image import pause.tar</span><br><span class="line">microk8s.ctr -n k8s.io image import heapster-influxdb-amd64.tar</span><br><span class="line">microk8s.ctr -n k8s.io image import heapster-grafana-amd64.tar</span><br><span class="line">microk8s.ctr -n k8s.io image import kubernetes-dashboard-amd64.tar</span><br><span class="line">microk8s.ctr -n k8s.io image import heapster-amd64.tar</span><br><span class="line">microk8s.ctr -n k8s.io image import k8s-dns-dnsmasq-nanny-amd64.tar</span><br><span class="line">microk8s.ctr -n k8s.io image import k8s-dns-kube-dns-amd64.tar</span><br><span class="line">microk8s.ctr -n k8s.io image import k8s-dns-sidecar-amd64.tar</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+</li>
+</ol>
+<h2 id="kbadmin部署"><a href="#kbadmin部署" class="headerlink" title="kbadmin部署"></a>kbadmin部署</h2><ol>
+<li>准备工作</li>
+<li>所有节点安装工具（1,2两步所有节点都需要操作）;</li>
+<li>部署Kuberneter Master;</li>
+<li>部署Kubernetes Worker;</li>
+<li>部署Dashboard可视化插件;</li>
+<li>部署容器存储插件;</li>
+</ol>
+<h2 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h2><ol>
+<li><p>关闭防火墙</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo ufw <span class="built_in">disable</span></span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>禁用SELINUX</p>
+   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo vi /etc/selinux/config</span></span><br><span class="line">SELINUX=permissive</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开启数据包转发</p>
+<ol>
+<li><p>内核开启ipv4转发</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo vim /etc/sysctl.conf</span></span><br><span class="line">    net.ipv4.ip_forward = 1  #开启ipv4转发，允许内置路由</span><br><span class="line">    #使之生效</span><br><span class="line">    $ sudo sysctl -p</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>防火墙修改FORWARD链默认策略</p>
+<p>设置docker启动参数添加<code>--iptables=false</code>选项，使docker不再操作iptables，比如1.10版以上可编辑docker daemon默认配置文件<code>/etc/docker/daemon.json</code>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    "iptables": false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>禁用swap</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo swapoff -a </span></span><br><span class="line"><span class="meta">#</span><span class="bash">同时还需要修改/etc/fstab文件，注释掉 SWAP 的自动挂载，防止机子重启后swap启用。</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="5">
+<li><p>配置iptables参数，使得流经网桥的流量也经过iptables/netfilter防火墙</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo tee /etc/sysctl.d/k8s.conf &lt;&lt;-<span class="string">'EOF'</span></span></span><br><span class="line">net.bridge.bridge-nf-call-ip6tables = 1</span><br><span class="line">net.bridge.bridge-nf-call-iptables = 1</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo sysctl --system</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h2 id="2-所有节点安装工具"><a href="#2-所有节点安装工具" class="headerlink" title="2.所有节点安装工具"></a>2.所有节点安装工具</h2><ol>
+<li>docker</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">卸载旧docker</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get remove docker docker-engine docker.io </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">安装依赖，使得apt可以使用https</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install \</span></span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    software-properties-common</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span><span class="bash">添加docker的GPG key</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">设置docker镜像源</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo add-apt-repository \</span></span><br><span class="line">   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span><br><span class="line"><span class="meta">   $</span><span class="bash">(lsb_release -cs) \</span></span><br><span class="line">   stable"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">安装指定版本docker-ce</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install -y docker-ce=5:18.09.0~3-0~ubuntu-bionic</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">设置开机启动docker</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo systemctl <span class="built_in">enable</span> docker &amp;&amp; sudo systemctl start docker</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">将当前登录用户加入到docker用户组中</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo usermod -aG docker xxx</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">docker启动参数配置</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo tee /etc/docker/daemon.json &lt;&lt;-<span class="string">'EOF'</span></span></span><br><span class="line">&#123;</span><br><span class="line"> "iptables": false,</span><br><span class="line"> "ip-masq": false,</span><br><span class="line"> "storage-driver": "overlay2",</span><br><span class="line"> "graph": "/home/docker"</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo systemctl restart docker</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>下载Kubernetes镜像</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">docker pull richarddockerimage/kube-proxy-v15</span><br><span class="line">docker pull richarddockerimage/kube-scheduler-v15</span><br><span class="line">docker pull richarddockerimage/kube-controller-manager-v15</span><br><span class="line">docker pull richarddockerimage/kube-apiserver-v15</span><br><span class="line">docker pull richarddockerimage/etcd</span><br><span class="line">docker pull richarddockerimage/pause-v15</span><br><span class="line">docker pull richarddockerimage/coredns-v15</span><br><span class="line"></span><br><span class="line">docker tag richarddockerimage/kube-proxy-v15 k8s.gcr.io/kube-proxy:v1.15.0</span><br><span class="line">docker tag richarddockerimage/kube-scheduler-v15 k8s.gcr.io/kube-scheduler:v1.15.0</span><br><span class="line">docker tag richarddockerimage/kube-controller-manager-v15 k8s.gcr.io/kube-controller-manager:v1.15.0</span><br><span class="line">docker tag richarddockerimage/kube-apiserver-v15 k8s.gcr.io/kube-apiserver:v1.15.0</span><br><span class="line">docker tag richarddockerimage/etcd k8s.gcr.io/etcd:3.3.10</span><br><span class="line">docker tag richarddockerimage/pause-v15 k8s.gcr.io/pause:3.1</span><br><span class="line">docker tag richarddockerimage/coredns-v15 k8s.gcr.io/coredns:1.3.1</span><br><span class="line"></span><br><span class="line">docker rmi richarddockerimage/kube-proxy-v15</span><br><span class="line">docker rmi richarddockerimage/kube-scheduler-v15</span><br><span class="line">docker rmi richarddockerimage/kube-controller-manager-v15</span><br><span class="line">docker rmi richarddockerimage/kube-apiserver-v15</span><br><span class="line">docker rmi richarddockerimage/etcd</span><br><span class="line">docker rmi richarddockerimage/pause-v15</span><br><span class="line">docker rmi richarddockerimage/coredns-v15</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-部署Kuberneter-Master"><a href="#3-部署Kuberneter-Master" class="headerlink" title="3.部署Kuberneter Master"></a>3.部署Kuberneter Master</h2><ol>
+<li>安装kubeadm、kubelet、kubectl</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">创建kubernetes的<span class="built_in">source</span>文件</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get update &amp;&amp; sudo apt-get install -y apt-transport-https curl</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo curl -s https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add -</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo tee /etc/apt/sources.list.d/kubernetes.list &lt;&lt;-<span class="string">'EOF'</span></span></span><br><span class="line">deb https://mirrors.aliyun.com/kubernetes/apt kubernetes-xenial main</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get update</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">安装指定版本的kudeadm kubelet kubectl</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> apt install -y kubelet=1.15.0-00 kubeadm=1.15.0-00 kubectl=1.15.0-00</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">设置开机启动</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo systemctl <span class="built_in">enable</span> kubelet &amp;&amp; sudo systemctl start kubelet</span></span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="2">
+<li>初始化kubernetes</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubeadm init --kubernetes-version=v1.15.0 --pod-network-cidr=10.244.0.0/16 --service-cidr=10.96.0.0/12</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">配置集群管理员</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mkdir -p <span class="variable">$HOME</span>/.kube</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo cp -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo chown $(id -u):$(id -g) <span class="variable">$HOME</span>/.kube/config</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">记录加入集群的令牌</span></span><br><span class="line">kubeadm join 10.3.0.50:6443 --token w1bc9h.wjhqbki4xc7drvoe \</span><br><span class="line">    --discovery-token-ca-cert-hash sha256:b2ebcbee78bdf675e3a2ea8b5676f5e1ab3f5496eefe3732c6abca507ea7af84</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span><span class="bash">部署网络插件</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f https://git.io/weave-kube-1.6</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="4-部署Kubernetes-Worker"><a href="#4-部署Kubernetes-Worker" class="headerlink" title="4.部署Kubernetes Worker"></a>4.部署Kubernetes Worker</h2><ol>
+<li>安装kubelet、kubeadm</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo</span></span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">repo_gpgcheck=1</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> apt-get install -y kubelet=1.15.0-00 kubeadm=1.15.0-00</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> systemctl <span class="built_in">enable</span> kubelet</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>加入集群</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">直接执行master记录的集群令牌</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> kubeadm join 10.3.0.50:6443 --token w1bc9h.wjhqbki4xc7drvoe \</span></span><br><span class="line">    --discovery-token-ca-cert-hash sha256:b2ebcbee78bdf675e3a2ea8b5676f5e1ab3f5496eefe3732c6abca507ea7af84</span><br></pre></td></tr></table></figure>
+
+<p>问题：子节点看不到所有node运行状态，master上可以看到？？</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/K8s%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -908,244 +1424,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/K8s/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="lahmxu">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="lahmxu">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/12/19/K8s/" itemprop="url">K8s</a></h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-19T14:48:39+08:00">
-                2019-12-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/k8s/" itemprop="url" rel="index">
-                    <span itemprop="name">k8s</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h1><p><img src="/images/EB6EDD19-F7E7-445B-B35C-0B570E411FD5.png" alt=""></p>
-<p><img src="/images/BA64038A-100C-4BEA-9731-8F44FE00DED6.png" alt=""></p>
-<ul>
-<li><p>它被宿主机操作系统隔离了，它看不到宿主机上的其他进程，以为自己就是pid为1的进程</p>
-</li>
-<li><p>它被宿主机操作系统限制了硬件资源，它能使用的cpu、内存等硬件资源只是宿主机的一部分</p>
-</li>
-<li><p>在被宿主机操作系统限制了存储空间，让这个进程认为宿主机的某个目录就是系统根目录</p>
-</li>
-</ul>
-<p><code>Namespace做隔离，Cgroups做限制，rootfs做文件系统</code></p>
-<p><code>容器是操作系统层级的虚拟化，而虚拟机是硬件层级的虚拟化。—本质区别</code></p>
-<h3 id="为什么用K8s？"><a href="#为什么用K8s？" class="headerlink" title="为什么用K8s？"></a>为什么用K8s？</h3><ul>
-<li><p><strong>自愈</strong>重新启动失败的容器，在节点不可用时，替换和重新调度节点上的容器，对用户定义的健康检查不响应的容器会被中止，并且在容器准备好服务之前不会把其向客户端广播。</p>
-</li>
-<li><p><strong>弹性伸缩</strong>通过监控容器的cpu的负载值,如果这个平均高于80%,增加容器的数量,如果这个平均低于10%,减少容器的数量</p>
-</li>
-<li><p><strong>服务的自动发现和负载均衡</strong> 不需要修改您的应用程序来使用不熟悉的服务发现机制，Kubernetes 为容器提供了自己的 IP 地址和一组容器的单个 DNS 名称，并可以在它们之间进行负载均衡。</p>
-</li>
-<li><p><strong>滚动升级和一键回滚</strong> Kubernetes 逐渐部署对应用程序或其配置的更改，同时监视应用程序运行状况，以确保它不会同时终止所有实例。 如果出现问题，Kubernetes会为您恢复更改，利用日益增长的部署解决方案的生态系统。</p>
-</li>
-</ul>
-<p><strong>容器的本质是进程，Kuberbetes的本质是操作系统。</strong></p>
-<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><ul>
-<li><p>节点：Kubernetes集群中的一台物理机或者虚拟机。</p>
-</li>
-<li><p>集群：位于Internet防火墙后的节点，这是kubernetes管理的主要计算资源。</p>
-</li>
-<li><p>边界路由器：为集群强制执行防火墙策略的路由器。 这可能是由云提供商或物理硬件管理的网关。</p>
-</li>
-<li><p>集群网络：一组逻辑或物理链接，可根据Kubernetes <a href="https://kubernetes.io/docs/admin/networking/" target="_blank" rel="noopener">网络模型</a> 实现群集内的通信。 集群网络的实现包括Overlay模型的  <a href="https://github.com/coreos/flannel#flannel" target="_blank" rel="noopener">flannel</a>  和基于SDN的 <a href="https://kubernetes.io/docs/admin/ovs-networking/" target="_blank" rel="noopener">OVS</a> 。</p>
-</li>
-<li><p>服务：使用标签选择器标识一组pod成为的Kubernetes <a href="https://kubernetes.io/docs/user-guide/services/" target="_blank" rel="noopener">服务</a> 。 除非另有说明，否则服务假定在集群网络内仅可通过虚拟IP访问。</p>
-</li>
-</ul>
-<h4 id="k8s集群"><a href="#k8s集群" class="headerlink" title="k8s集群"></a>k8s集群</h4><ol>
-<li><p>基本结构</p>
-<p><a href="bear://x-callback-url/open-note?id=5314B7B3-F264-4CC2-9E50-A93D3577CFB1-4812-00002334F7F273B0" target="_blank" rel="noopener">Kubernetes集群组成</a></p>
-</li>
-<li><p>Pod</p>
-<p><a href="">K8s Pod</a></p>
-</li>
-<li><p>Controller</p>
-<p><a href="bear://x-callback-url/open-note?id=1536AC3D-0184-4431-9622-5858722B89E9-4812-00002303180088F1" target="_blank" rel="noopener">K8s Controller</a></p>
-</li>
-<li><p>Service </p>
-<p><a href="bear://x-callback-url/open-note?id=C7C276E4-706F-4BCD-8AB1-01A9B948A279-721-00008FFECCE992F0" target="_blank" rel="noopener">K8s Service</a></p>
-</li>
-<li><p>PV&amp;PVC</p>
-<p><a href="https://blog.csdn.net/xts_huangxin/article/details/51494472" target="_blank" rel="noopener">K8s PV&amp;PVC</a> </p>
-</li>
-<li><p>ConfigMap&amp;Secret</p>
-<p><a href="https://www.kubernetes.org.cn/3400.html" target="_blank" rel="noopener">ConfigMapSecret</a></p>
-<ul>
-<li><p>ConfigMap：存储配置信息</p>
-</li>
-<li><p>Secret ：存储秘钥和密码之类的信息</p>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="什么是声明式API？声明式API的使用"><a href="#什么是声明式API？声明式API的使用" class="headerlink" title="什么是声明式API？声明式API的使用"></a>什么是声明式API？声明式API的使用</h3><p><strong>为什么叫“声明”API ？</strong></p>
-<ol>
-<li><p>常用命令</p>
-<p><a href="bear://x-callback-url/open-note?id=BC8D7730-F8CD-4042-A5B2-FEEB4BB16A4A-340-0000121439F75784" target="_blank" rel="noopener">kubectl命令</a></p>
-</li>
-<li><p>kubectl create/replace和kubectl apply有什么不同？</p>
-<ul>
-<li><p>命令式配置文件操作，类似于Docker Swarm</p>
-</li>
-<li><p>声明式API</p>
-</li>
-</ul>
-</li>
-</ol>
-<p> <strong>不同点</strong></p>
-<ul>
-<li><p>命令式API对象是使用新的YAML文件中的API对象替换原有的API对象，而声明式API执行了对原有API对象的PATCH操作</p>
-</li>
-<li><p>声明式API一次可以处理多个写操作，具备merge的能力</p>
-<ol start="3">
-<li>滚动更新 </li>
-</ol>
-</li>
-</ul>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#新建yaml文件</span></span><br><span class="line"></span><br><span class="line"><span class="string">cat</span> <span class="string">&gt;</span> <span class="string">nginx-deployment.yaml</span> <span class="string">&lt;&lt;</span> <span class="string">EOF</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-deployment</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">nginx:1.7.9</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#创建Pod</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">apply</span> <span class="string">-f</span> <span class="string">nginx-deployment.yaml</span> <span class="string">--record</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看Pod创建状态</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">get</span> <span class="string">pod</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#用edit命令修改yaml文件</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">edit</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#使用rollout查看滚动更新过程</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">status</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看详细更新过程</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">describe</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看更新的replicaSet</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">get</span> <span class="string">rs</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#更改成错误的镜像1.7.9 --&gt; 1.91</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看当前rs pod状态</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#中止滚动更新</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">pause</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#恢复滚动更新</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">resume</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#回退</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#回退上一个版本</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">undo</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#回退指定版本</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">history</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">undo</span> <span class="string">deployment/nginx-deployment</span> <span class="string">--to-revision=2</span></span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="三种部署方式"><a href="#三种部署方式" class="headerlink" title="三种部署方式"></a>三种部署方式</h3><ol>
-<li><p><a href="见下文">kubeadm安装</a></p>
-</li>
-<li><p><a href="bear://x-callback-url/open-note?id=79092069-EC2F-4B5D-9C66-D63A6002ECFB-721-0000682A1C954242" target="_blank" rel="noopener">minikube安装</a> </p>
-</li>
-<li><p><a href="bear://x-callback-url/open-note?id=59513F55-3EBB-4CF7-BDDF-94EDFAEA3738-81658-0001C8E81DC84061" target="_blank" rel="noopener">microK8s安装</a></p>
-</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1196,7 +1474,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
