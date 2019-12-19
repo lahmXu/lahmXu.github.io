@@ -248,7 +248,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/01/shell%E5%AE%9E%E6%88%98/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/K8s%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lahmxu">
@@ -267,7 +267,7 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/12/01/shell%E5%AE%9E%E6%88%98/" itemprop="url">查询文件第十行</a></h2>
+                <a class="post-title-link" href="/2019/12/19/K8s%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/" itemprop="url">K8s基本组成</a></h2>
         
 
         <div class="post-meta">
@@ -279,8 +279,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-01T22:45:13+08:00">
-                2019-12-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-19T17:24:34+08:00">
+                2019-12-19
               </time>
             
 
@@ -302,8 +302,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">hexo</span>
+                  <a href="/categories/k8s/" itemprop="url" rel="index">
+                    <span itemprop="name">k8s</span>
                   </a>
                 </span>
 
@@ -341,7 +341,21 @@
       
         
           
-            
+            <p>Kubernetes（k8s）是自动化容器操作的开源平台，这些操作包括部署，调度和节点集群间扩展。如果你曾经用过Docker容器技术部署容器，那么可以将Docker看成Kubernetes内部使用的低级别组件。Kubernetes不仅仅支持Docker，还支持Rocket，这是另一种容器技术。</p>
+<p><img src="/var/folders/4h/n6rxnnpx6n36zxy1km7xq0nh0000gn/T/net.shinyfrog.bear/BearTemp.zLnOsS/1BEE79B7-7704-4FAE-BB04-1572B84A6D6E.png" alt="1BEE79B7-7704-4FAE-BB04-1572B84A6D6E"></p>
+<h3 id="Pod"><a href="#Pod" class="headerlink" title="Pod"></a>Pod</h3><p>[Pod]（上图绿色方框）安排在节点上，包含一组容器和卷。同一个Pod里的容器共享同一个网络命名空间，可以使用localhost互相通信。Pod是短暂的，不是持续性实体。</p>
+<h3 id="Label"><a href="#Label" class="headerlink" title="Label"></a>Label</h3><p>Pod的标签，一个Label是attach到Pod的一对键/值对，用来传递用户定义的属性。</p>
+<h3 id="Replication-Controller"><a href="#Replication-Controller" class="headerlink" title="Replication Controller"></a>Replication Controller</h3><p>Replication Controller确保任意时间都有指定数量的Pod“副本”在运行。如果为某个Pod创建了Replication Controller并且指定3个副本，它会创建3个Pod，并且持续监控它们。</p>
+<h3 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h3><p>定义一系列Pod以及访问这些Pod的策略的一层<strong>抽象</strong>。Service通过Label找到Pod组。因为Service是抽象的，所以在图表里通常看不到它们的存在，这也就让这一概念更难以理解。</p>
+<h3 id="Node"><a href="#Node" class="headerlink" title="Node"></a>Node</h3><p>节点（上图橘色方框）是物理或者虚拟机器，作为Kubernetes worker，通常称为Minion。每个节点都运行如下Kubernetes关键组件：</p>
+<ul>
+<li>Kubelet：是主节点代理。</li>
+<li>Kube-proxy：Service使用其将链接路由到Pod，如上文所述。</li>
+<li>Docker或Rocket：Kubernetes使用的容器技术来创建容器。</li>
+</ul>
+<h3 id="Kubernetes-Master"><a href="#Kubernetes-Master" class="headerlink" title="Kubernetes Master"></a>Kubernetes Master</h3><p>集群拥有一个Kubernetes Master（紫色方框）。Kubernetes Master提供集群的独特视角，并且拥有一系列组件，比如Kubernetes API Server。API Server提供可以用来和集群交互的REST端点。master节点包括用来创建和复制Pod的Replication Controller。</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://segmentfault.com/u/lonelymoon" target="_blank" rel="noopener">寞月 - SegmentFault 思否</a></p>
+
           
         
       
@@ -389,7 +403,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/27/hello-world/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/K8s%20Service/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="lahmxu">
@@ -408,7 +422,7 @@
         
           <h2 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/11/27/hello-world/" itemprop="url">Hello World</a></h2>
+                <a class="post-title-link" href="/2019/12/19/K8s%20Service/" itemprop="url">K8s Service</a></h2>
         
 
         <div class="post-meta">
@@ -420,8 +434,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-11-27T09:24:55+08:00">
-                2019-11-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-19T17:24:27+08:00">
+                2019-12-19
               </time>
             
 
@@ -430,6 +444,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index">
+                    <span itemprop="name">k8s</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -460,19 +496,621 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+            <p>问题：<br>访问k8s集群中的pod， 客户端需要知道pod地址，需要感知pod的状态。那如何获取各个pod的地址？若某一node上的pod故障，客户端如何感知？</p>
+<h2 id="Service功能"><a href="#Service功能" class="headerlink" title="Service功能"></a>Service功能</h2><ul>
+<li>发现后端pod服务</li>
+<li>为一组具有相同功能的容器应用提供一个统一的入口地址</li>
+<li>将请求进行负载分发到后端的各个容器应用上的控制器</li>
+</ul>
+<h5 id="Kubernetes-Service-是一个抽象层，它定义了一组逻辑的Pods，借助Service，应用可以方便的实现服务发现与负载均衡。"><a href="#Kubernetes-Service-是一个抽象层，它定义了一组逻辑的Pods，借助Service，应用可以方便的实现服务发现与负载均衡。" class="headerlink" title="Kubernetes Service 是一个抽象层，它定义了一组逻辑的Pods，借助Service，应用可以方便的实现服务发现与负载均衡。"></a>Kubernetes Service 是一个抽象层，它定义了一组逻辑的Pods，借助Service，应用可以方便的实现服务发现与负载均衡。</h5><p><img src="/var/folders/4h/n6rxnnpx6n36zxy1km7xq0nh0000gn/T/net.shinyfrog.bear/BearTemp.9RooXa/6844FAEA-F1A1-412F-BB10-6D85EF08D6EB.png" alt="6844FAEA-F1A1-412F-BB10-6D85EF08D6EB"></p>
+<h2 id="Service类型"><a href="#Service类型" class="headerlink" title="Service类型"></a>Service类型</h2><ul>
+<li><strong>ClusterIP</strong>：提供一个集群内部的虚拟IP以供Pod访问（service默认类型)</li>
+</ul>
+<p><strong>Headless Service</strong><br>不需要分配VIP，直接以<strong>DNS记录的方式解析出被代理的Pod的IP地址</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;pod-name&gt;.&lt;svc-name&gt;.&lt;namespace&gt;.svc.cluster.local</span><br></pre></td></tr></table></figure>
+<p>所以k8s内部的访问地址可以直接配置成这样的域名进行访问。</p>
+<ul>
+<li><strong>NodePort</strong>:在每个Node上打开一个端口以供外部访问</li>
+<li><strong>LoadBalancer</strong>：通过外部的负载均衡器来访问</li>
+<li><strong>*ExternalName</strong>：通过返回 CNAME 和它的值，可以将服务映射到 externalName 字段的内容，没有任何类型代理被创建。</li>
+</ul>
+<h2 id="Service-selector"><a href="#Service-selector" class="headerlink" title="Service selector"></a>Service selector</h2><ul>
+<li>service通过selector和pod建立关联。</li>
+<li>k8s会根据service关联到pod的podIP信息组合成一个endpoint。</li>
+<li>若service定义中没有selector字段，service被创建时，endpoint controller不会自动创建endpoint。</li>
+</ul>
+<h2 id="Service负载分发策略"><a href="#Service负载分发策略" class="headerlink" title="Service负载分发策略"></a>Service负载分发策略</h2><ul>
+<li>RoundRobin：轮询模式，即轮询将请求转发到后端的各个pod上（默认模式）</li>
+<li>SessionAffinity：基于客户端IP地址进行会话保持的模式，第一次客户端访问后端某个pod，之后的请求都转发到这个pod上。</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接:"></a>参考链接:</h2><p><a href="https://zhuanlan.zhihu.com/p/39909011" target="_blank" rel="noopener">浅谈 kubernetes service 那些事 - 知乎</a></p>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+    
 
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+    
 
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/K8s%20Controller/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lahmxu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lahmxu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/19/K8s%20Controller/" itemprop="url">K8s Controller</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-19T17:24:13+08:00">
+                2019-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index">
+                    <span itemprop="name">k8s</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>编排其实很简单之谈谈“控制器”模型</strong></p>
+<h3 id="Pod这个看似复杂的API对象，实际上就是对容器的进一步抽象和封装而已"><a href="#Pod这个看似复杂的API对象，实际上就是对容器的进一步抽象和封装而已" class="headerlink" title="Pod这个看似复杂的API对象，实际上就是对容器的进一步抽象和封装而已"></a>Pod这个看似复杂的API对象，实际上就是对容器的进一步抽象和封装而已</h3><p>Kubernetes项目中的一个通用编排模式，即：控制循环（control loop），伪代码如下</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>&#123;</span><br><span class="line">  实际状态 := 获取集群中对象 X 的实际状态（Actual State）</span><br><span class="line">  期望状态 := 获取集群中对象 X 的期望状态（Desired State）</span><br><span class="line">  <span class="keyword">if</span> 实际状态 == 期望状态 &#123;</span><br><span class="line">    什么都不做</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    执行编排动作，将实际状态调整为期望状态</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实际状态往往来自于Kubernetes集群本身。</p>
+<p>期望状态一般来自于用户提交的YAML文件。</p>
+<p>以Deployment为例，简单描述一下它对控制器模型的实现：</p>
+<ol>
+<li><p>Deployment控制器从Etcd中获取到所有携带了“app:nginx”标签的Pod，然后统计它们的数量，这个就是实际状态；</p>
+</li>
+<li><p>Deployment对象的Replicas字段的值就是期望状态；</p>
+</li>
+<li><p>Deployment控制器将两个状态做比较，然后根据比较结果，确定是创建Pod，还是删除已有的Pod。</p>
+</li>
+</ol>
+<p><strong>这个操作，通常被叫做调谐（Reconcile）。这个调谐的过程，则被称作“Reconcile Loop(调谐循环)“或者”Sync Loop“(同步循环)</strong></p>
+<h2 id="控制器类型"><a href="#控制器类型" class="headerlink" title="控制器类型"></a>控制器类型</h2><ol>
+<li>Deployment&amp;ReplicaSet<ul>
+<li>无状态应用</li>
+</ul>
+</li>
+<li>StatefulSet<ul>
+<li>有状态应用</li>
+</ul>
+</li>
+<li>DaemonSet<ul>
+<li>这个 Pod 运行在 Kubernetes 集群里的每一个节点（node）上</li>
+<li>每个节点上只有一个这样的Pod实例</li>
+<li>当有新的node加入k8s集群后，该pod会被自动创建；当旧节点删除后，上面的pod会被回收；</li>
+</ul>
+</li>
+</ol>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/K8s%20Pod/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lahmxu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lahmxu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/19/K8s%20Pod/" itemprop="url">K8s Pod</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-19T15:55:58+08:00">
+                2019-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index">
+                    <span itemprop="name">k8s</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><strong>集装箱虽然好用，但是四面光秃秃的，吊车还怎么把这个集装箱吊起来并摆放好呢</strong></p>
+<p><strong>Pod是Kubernetes调度的最小单元。一个Pod可以包含一个或多个容器，因此它可以被看作是内部容器的逻辑宿主机。</strong></p>
+<p><strong>Pod不仅是一个对象，还是一种设计模式</strong></p>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><pre><code>1. 为什么需要Pod？
+2. Pod的实现机制
+3. 详解容器设计模式    </code></pre><h2 id="为什么需要Pod？"><a href="#为什么需要Pod？" class="headerlink" title="为什么需要Pod？"></a>为什么需要Pod？</h2><h3 id="容器设计模式"><a href="#容器设计模式" class="headerlink" title="容器设计模式"></a>容器设计模式</h3><p>容器的设计本身是一种“单进程”模型，所以如果你在容器里启动多个进程，只有一个可以作为 PID=1 的进程，而这时候，如果这个 PID=1 的进程挂了，或者说失败退出了，那么其他三个进程就会自然而然的成为孤儿，没有人能够管理它们，没有人能够回收它们的资源，这是一个非常不好的情况。<br>当然你也可以将PID=1的进程改成systemd，但是这将会导致另外一个问题：使得管理容器不再是管理应用本身了，而等于是管理systemd，这样应用是否退出和异常是没办法直接知道的。</p>
+<h3 id="Pod设计模式"><a href="#Pod设计模式" class="headerlink" title="Pod设计模式"></a>Pod设计模式</h3><p>Pod = “进程组”<br>Pod在k8s里面只有一个逻辑单位，不存在真实对应的东西，真正在物理上存在的东西就是几个容器。Pod是k8s分配资源的一个单位，因为里面的容器要共享某些资源，所以Pod也是k8s的原子调度单位。</p>
+<h3 id="成组调度解法对比（英文叫做：Task-co-scheduling问题）"><a href="#成组调度解法对比（英文叫做：Task-co-scheduling问题）" class="headerlink" title="成组调度解法对比（英文叫做：Task co-scheduling问题）"></a>成组调度解法对比（英文叫做：Task co-scheduling问题）</h3><p><strong>问题描述</strong><br>假如现在有两个容器，它们是紧密协作的，所以它们应该被部署在一个 Pod 里面。具体来说，第一个容器叫做 App，就是业务容器，它会写日志文件；第二个容器叫做 LogCollector，它会把刚刚 App 容器写的日志文件转发到后端的 ElasticSearch 中。</p>
+<p>两个容器的资源需求是这样的：App 容器需要 1G 内存，LogCollector 需要 0.5G 内存，而当前集群环境的可用内存是这样一个情况：Node_A：1.25G 内存，Node_B：2G 内存。</p>
+<p>假如说现在没有 Pod 概念，就只有两个容器，这两个容器要紧密协作、运行在一台机器上。可是，如果调度器先把 App 调度到了 Node_A 上面，接下来会怎么样呢？这时你会发现：LogCollector 实际上是没办法调度到 Node_A 上的，因为资源不够。其实此时整个应用本身就已经出问题了，调度已经失败了，必须去重新调度。</p>
+<p><strong>解决方案</strong><br>    1. 在 Mesos 里面，它会做一个事情，叫做资源囤积（resource hoarding）：即当所有设置了 Affinity 约束的任务都达到时，才开始统一调度，这是一个非常典型的成组调度的解法。缺点：效率损失，易产生死锁，复杂度增加；<br>    2. 乐观调度：不管这些冲突的异常情况，先调度，同时设置一个非常精妙的回滚机制，这样经过冲突后，通过回滚来解决问题。这个方式相对来说要更加优雅，也更加高效，但是它的实现机制是非常复杂的。悲观锁的设置一定比乐观锁要简单。缺点：实现非常复杂<br>    3. Pod完美解决，多个容器属于同一个pod，在调度的时候以一个Pod为单位进行调度的，所以这个问题根本不存在。</p>
+<h3 id="什么是超亲密关系？"><a href="#什么是超亲密关系？" class="headerlink" title="什么是超亲密关系？"></a>什么是超亲密关系？</h3><ul>
+<li>比如说两个进程之间会发生文件交换，前面提到的例子就是这样，一个写日志，一个读日志；</li>
+<li>两个进程之间需要通过 localhost 或者说是本地的 Socket 去进行通信，这种本地通信也是超亲密关系；</li>
+<li>这两个容器或者是微服务之间，需要发生非常频繁的 RPC 调用，出于性能的考虑，也希望它们是超亲密关系；</li>
+<li>两个容器或者是应用，它们需要共享某些 Linux Namespace。最简单常见的一个例子，就是我有一个容器需要加入另一个容器的 Network Namespace。这样我就能看到另一个容器的网络设备，和它的网络信息。</li>
+</ul>
+<h3 id="Pod主要解决了两个问题"><a href="#Pod主要解决了两个问题" class="headerlink" title="Pod主要解决了两个问题"></a>Pod主要解决了两个问题</h3><ol>
+<li>我们怎么去描述超亲密关系；</li>
+<li>我们怎么去对超亲密关系的容器或者说是业务去做统一调度，这是 Pod 最主要的一个诉求。</li>
+</ol>
+<h2 id="Pod的实现机制"><a href="#Pod的实现机制" class="headerlink" title="Pod的实现机制"></a>Pod的实现机制</h2><p>因为容器之间原本是被 Linux Namespace 和 cgroups 隔开的，所以现在实际要解决的是怎么去打破这个隔离，然后共享某些事情和某些信息。这就是 Pod 的设计要解决的核心问题所在。<br>    1. 共享网络<br>        - 在每个 Pod 里，会额外起一个 Infra container 小容器来共享整个 Pod 的  Network Namespace。<br>        - Infra container 是一个非常小的镜像，大概 100~200KB 左右，是一个汇编语言写的、永远处于“暂停”状态的容器。由于有了这样一个 Infra container 之后，其他所有容器都会通过 Join Namespace 的方式加入到 Infra container 的 Network Namespace 中。<br>        - 整个 Pod 的生命周期是等同于 Infra container 的生命周期<br>    2. 共享存储<br>        - 挂载 volume 解决</p>
+<h2 id="Pod的属性"><a href="#Pod的属性" class="headerlink" title="Pod的属性"></a>Pod的属性</h2><h4 id="如何定义一个pod-yaml"><a href="#如何定义一个pod-yaml" class="headerlink" title="如何定义一个pod.yaml"></a>如何定义一个pod.yaml</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span>  <span class="comment">#版本</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Pod</span>  <span class="comment">#对象类型</span></span><br><span class="line"><span class="attr">metadata:</span>   <span class="comment">#用于唯一区分对象的元数据</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx</span>  <span class="comment">#Pod名称</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span> <span class="comment">#标签，其他控制器对象可以通过这样的label来定位到此Pod，从而对Pod进行管理。</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span>  <span class="comment">#容器名称</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">nginx</span>  <span class="comment">#镜像文件</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span>  <span class="comment">#容器端口</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="共享资源"><a href="#共享资源" class="headerlink" title="共享资源"></a>共享资源</h4><pre><code>- PID命名空间：Pod中不同的应用程序可以看到其他应用程序的进程ID。
+- network命名空间：Pod中多个容器处于同一个网络命名空间，因此能够访问的IP和端口范围都是相同的。也可以通过localhost相互访问。
+- IPC命名空间：Pod中的多个容器共享Inner-process Communication命名空间，因此可以通过SystemV IPC或POSIX进行进程间通信。
+- UTS命名空间：Pod中的多个容器共享同一个主机名。
+- Volumes：Pod中各个容器可以共享在Pod中定义分存储卷（Volume）。</code></pre><h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>Pod的生命周期是Replication Controller进行管理的。一个Pod的生命周期过程包括：<br>    * 通过yaml或json对Pod进行描述<br>    * apiserver（运行在Master主机）收到创建Pod的请求后，将此Pod对象的定义存储在etcd中<br>    * scheduler（运行在Master主机）将此Pod分配到Node上运行<br>    * Pod内所有容器运行结束后此Pod也结束<br>在整个过程中，Pod通常处于以下的五种阶段之一：<br>    * Pending：Pod定义正确，提交到Master，但其所包含的容器镜像还未完全创建。通常，Master对Pod进行调度需要一些时间，Node进行容器镜像的下载也需要一些时间，启动容器也需要一定时间。（写数据到etcd，调度，pull镜像，启动容器）。<br>    * Running：Pod已经被分配到某个Node上，并且所有的容器都被创建完毕，至少有一个容器正在运行中，或者有容器正在启动或重启中。<br>    * Succeeded：Pod中所有的容器都成功运行结束，并且不会被重启。这是Pod的一种最终状态。<br>    * Failed：Pod中所有的容器都运行结束了，其中至少有一个容器是非正常结束的（exit code不是0）。这也是Pod的一种最终状态。<br>    * Unknown：无法获得Pod的状态，通常是由于无法和Pod所在的Node进行通信。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>Pod 是 Kubernetes 项目里实现“容器设计模式”的核心机制；</li>
+<li>“容器设计模式”是 Google Borg 的大规模容器集群管理最佳实践之一，也是 Kubernetes 进行复杂应用编排的基础依赖之一；</li>
+<li>所有“设计模式”的本质都是：解耦和重用。</li>
+</ul>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p>如何操作<a href="https://www.jianshu.com/p/9ce65e37f746" target="_blank" rel="noopener">K8s | Pod 基本操作 - 简书</a><br>pod简介<a href="https://www.jianshu.com/p/74f53019a726" target="_blank" rel="noopener">K8s — Pod - 简书</a><br>pod和设计模式<a href="https://yq.aliyun.com/articles/718827?utm_content=g_1000077419" target="_blank" rel="noopener">从零开始入门 K8s| 详解 Pod 及容器设计模式-云栖社区-阿里云</a>    </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/K8s/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lahmxu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lahmxu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/12/19/K8s/" itemprop="url">K8s</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-19T14:48:39+08:00">
+                2019-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index">
+                    <span itemprop="name">k8s</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h1><p><img src="/var/folders/4h/n6rxnnpx6n36zxy1km7xq0nh0000gn/T/net.shinyfrog.bear/BearTemp.D0df74/EB6EDD19-F7E7-445B-B35C-0B570E411FD5.png" alt="EB6EDD19-F7E7-445B-B35C-0B570E411FD5"></p>
+<p><img src="/var/folders/4h/n6rxnnpx6n36zxy1km7xq0nh0000gn/T/net.shinyfrog.bear/BearTemp.k2XJcF/BA64038A-100C-4BEA-9731-8F44FE00DED6.png" alt="BA64038A-100C-4BEA-9731-8F44FE00DED6"></p>
+<ul>
+<li><p>它被宿主机操作系统隔离了，它看不到宿主机上的其他进程，以为自己就是pid为1的进程</p>
+</li>
+<li><p>它被宿主机操作系统限制了硬件资源，它能使用的cpu、内存等硬件资源只是宿主机的一部分</p>
+</li>
+<li><p>在被宿主机操作系统限制了存储空间，让这个进程认为宿主机的某个目录就是系统根目录</p>
+</li>
+</ul>
+<p><code>Namespace做隔离，Cgroups做限制，rootfs做文件系统</code></p>
+<p><code>容器是操作系统层级的虚拟化，而虚拟机是硬件层级的虚拟化。—本质区别</code></p>
+<h3 id="为什么用K8s？"><a href="#为什么用K8s？" class="headerlink" title="为什么用K8s？"></a>为什么用K8s？</h3><ul>
+<li><p><strong>自愈</strong>重新启动失败的容器，在节点不可用时，替换和重新调度节点上的容器，对用户定义的健康检查不响应的容器会被中止，并且在容器准备好服务之前不会把其向客户端广播。</p>
+</li>
+<li><p><strong>弹性伸缩</strong>通过监控容器的cpu的负载值,如果这个平均高于80%,增加容器的数量,如果这个平均低于10%,减少容器的数量</p>
+</li>
+<li><p><strong>服务的自动发现和负载均衡</strong> 不需要修改您的应用程序来使用不熟悉的服务发现机制，Kubernetes 为容器提供了自己的 IP 地址和一组容器的单个 DNS 名称，并可以在它们之间进行负载均衡。</p>
+</li>
+<li><p><strong>滚动升级和一键回滚</strong> Kubernetes 逐渐部署对应用程序或其配置的更改，同时监视应用程序运行状况，以确保它不会同时终止所有实例。 如果出现问题，Kubernetes会为您恢复更改，利用日益增长的部署解决方案的生态系统。</p>
+</li>
+</ul>
+<p><strong>容器的本质是进程，Kuberbetes的本质是操作系统。</strong></p>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><ul>
+<li><p>节点：Kubernetes集群中的一台物理机或者虚拟机。</p>
+</li>
+<li><p>集群：位于Internet防火墙后的节点，这是kubernetes管理的主要计算资源。</p>
+</li>
+<li><p>边界路由器：为集群强制执行防火墙策略的路由器。 这可能是由云提供商或物理硬件管理的网关。</p>
+</li>
+<li><p>集群网络：一组逻辑或物理链接，可根据Kubernetes <a href="https://kubernetes.io/docs/admin/networking/" target="_blank" rel="noopener">网络模型</a> 实现群集内的通信。 集群网络的实现包括Overlay模型的  <a href="https://github.com/coreos/flannel#flannel" target="_blank" rel="noopener">flannel</a>  和基于SDN的 <a href="https://kubernetes.io/docs/admin/ovs-networking/" target="_blank" rel="noopener">OVS</a> 。</p>
+</li>
+<li><p>服务：使用标签选择器标识一组pod成为的Kubernetes <a href="https://kubernetes.io/docs/user-guide/services/" target="_blank" rel="noopener">服务</a> 。 除非另有说明，否则服务假定在集群网络内仅可通过虚拟IP访问。</p>
+</li>
+</ul>
+<h4 id="k8s集群"><a href="#k8s集群" class="headerlink" title="k8s集群"></a>k8s集群</h4><ol>
+<li><p>基本结构</p>
+<p><a href="bear://x-callback-url/open-note?id=5314B7B3-F264-4CC2-9E50-A93D3577CFB1-4812-00002334F7F273B0" target="_blank" rel="noopener">Kubernetes集群组成</a></p>
+</li>
+<li><p>Pod</p>
+<p><a href="">K8s Pod</a></p>
+</li>
+<li><p>Controller</p>
+<p><a href="bear://x-callback-url/open-note?id=1536AC3D-0184-4431-9622-5858722B89E9-4812-00002303180088F1" target="_blank" rel="noopener">K8s Controller</a></p>
+</li>
+<li><p>Service </p>
+<p><a href="bear://x-callback-url/open-note?id=C7C276E4-706F-4BCD-8AB1-01A9B948A279-721-00008FFECCE992F0" target="_blank" rel="noopener">K8s Service</a></p>
+</li>
+<li><p>PV&amp;PVC</p>
+<p><a href="https://blog.csdn.net/xts_huangxin/article/details/51494472" target="_blank" rel="noopener">K8s PV&amp;PVC</a> </p>
+</li>
+<li><p>ConfigMap&amp;Secret</p>
+<p><a href="https://www.kubernetes.org.cn/3400.html" target="_blank" rel="noopener">ConfigMapSecret</a></p>
+<ul>
+<li><p>ConfigMap：存储配置信息</p>
+</li>
+<li><p>Secret ：存储秘钥和密码之类的信息</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="什么是声明式API？声明式API的使用"><a href="#什么是声明式API？声明式API的使用" class="headerlink" title="什么是声明式API？声明式API的使用"></a>什么是声明式API？声明式API的使用</h3><p><strong>为什么叫“声明”API ？</strong></p>
+<ol>
+<li><p>常用命令</p>
+<p><a href="bear://x-callback-url/open-note?id=BC8D7730-F8CD-4042-A5B2-FEEB4BB16A4A-340-0000121439F75784" target="_blank" rel="noopener">kubectl命令</a></p>
+</li>
+<li><p>kubectl create/replace和kubectl apply有什么不同？</p>
+<ul>
+<li><p>命令式配置文件操作，类似于Docker Swarm</p>
+</li>
+<li><p>声明式API</p>
+</li>
+</ul>
+</li>
+</ol>
+<p> <strong>不同点</strong></p>
+<ul>
+<li><p>命令式API对象是使用新的YAML文件中的API对象替换原有的API对象，而声明式API执行了对原有API对象的PATCH操作</p>
+</li>
+<li><p>声明式API一次可以处理多个写操作，具备merge的能力</p>
+<ol start="3">
+<li>滚动更新 </li>
+</ol>
+</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#新建yaml文件</span></span><br><span class="line"></span><br><span class="line"><span class="string">cat</span> <span class="string">&gt;</span> <span class="string">nginx-deployment.yaml</span> <span class="string">&lt;&lt;</span> <span class="string">EOF</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-deployment</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">nginx:1.7.9</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#创建Pod</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">apply</span> <span class="string">-f</span> <span class="string">nginx-deployment.yaml</span> <span class="string">--record</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看Pod创建状态</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">get</span> <span class="string">pod</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#用edit命令修改yaml文件</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">edit</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#使用rollout查看滚动更新过程</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">status</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看详细更新过程</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">describe</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看更新的replicaSet</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">get</span> <span class="string">rs</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#更改成错误的镜像1.7.9 --&gt; 1.91</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看当前rs pod状态</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#中止滚动更新</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">pause</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#恢复滚动更新</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">resume</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#回退</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#回退上一个版本</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">undo</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#回退指定版本</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">history</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">undo</span> <span class="string">deployment/nginx-deployment</span> <span class="string">--to-revision=2</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="三种部署方式"><a href="#三种部署方式" class="headerlink" title="三种部署方式"></a>三种部署方式</h3><ol>
+<li><p><a href="见下文">kubeadm安装</a></p>
+</li>
+<li><p><a href="bear://x-callback-url/open-note?id=79092069-EC2F-4B5D-9C66-D63A6002ECFB-721-0000682A1C954242" target="_blank" rel="noopener">minikube安装</a> </p>
+</li>
+<li><p><a href="bear://x-callback-url/open-note?id=59513F55-3EBB-4CF7-BDDF-94EDFAEA3738-81658-0001C8E81DC84061" target="_blank" rel="noopener">microK8s安装</a></p>
+</li>
+</ol>
 
           
         
@@ -558,7 +1196,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -580,7 +1218,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">1</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
