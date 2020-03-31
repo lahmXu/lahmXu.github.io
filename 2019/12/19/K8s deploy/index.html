@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="k8s," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="minikube部署 安装机器ubuntu18,大于2核  切换root用户  开始教程之前先安装docker 1apt install docker.io 添加kubectl  step 1: 访问官方github网址：https:&#x2F;&#x2F;github.com&#x2F;kubernetes&#x2F;kubernetes&#x2F;releases step 2: 找到想使用的发布版本，在每个发布版本的最后一行有类似“CHAN">
+<meta name="keywords" content="k8s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K8s deploy">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;19&#x2F;K8s%20deploy&#x2F;index.html">
+<meta property="og:site_name" content="烂笔头">
+<meta property="og:description" content="minikube部署 安装机器ubuntu18,大于2核  切换root用户  开始教程之前先安装docker 1apt install docker.io 添加kubectl  step 1: 访问官方github网址：https:&#x2F;&#x2F;github.com&#x2F;kubernetes&#x2F;kubernetes&#x2F;releases step 2: 找到想使用的发布版本，在每个发布版本的最后一行有类似“CHAN">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-20T02:21:18.421Z">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/19/K8s deploy/"/>
+
+
+
+
+
+  <title>K8s deploy | 烂笔头</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">烂笔头</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/K8s%20deploy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lahmxu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="烂笔头">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">K8s deploy</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-19T23:43:20+08:00">
+                2019-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index">
+                    <span itemprop="name">k8s</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="minikube部署"><a href="#minikube部署" class="headerlink" title="minikube部署"></a>minikube部署</h2><ol>
+<li><p>安装机器ubuntu18,大于2核</p>
+</li>
+<li><p>切换root用户</p>
+</li>
+<li><p>开始教程之前先安装docker</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install docker.io</span><br></pre></td></tr></table></figure></li>
+<li><p>添加kubectl</p>
+<ul>
+<li>step 1: 访问官方github网址：<a href="https://github.com/kubernetes/kubernetes/releases" target="_blank" rel="noopener">https://github.com/kubernetes/kubernetes/releases</a></li>
+<li>step 2: 找到想使用的发布版本，在每个发布版本的最后一行有类似“CHANGELOG-1.10.md”这样的内容，点击超链进入；</li>
+<li>step 3: 然后进入“Client Binaries”区域；</li>
+<li>step 4: 选择和目标机器系统匹配的二进制包下载；</li>
+<li>step 5: 解压缩，将kubectl放入/usr/local/bin目录；</li>
+</ul>
+</li>
+<li><p>下载并配置minikube</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">下载minikube国内阿里云，不要下载最新版，最新版有问题</span></span><br><span class="line">curl -Lo minikube http://kubernetes.oss-cn-hangzhou.aliyuncs.com/minikube/releases/v1.2.0/minikube-linux-amd64 &amp;&amp; chmod +x minikube &amp;&amp; sudo mv minikube /usr/local/bin/</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动minikube</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">指定不需要vm-driver</span></span><br><span class="line">minikube start --vm-driver=none --registry-mirror=https://registry.docker-cn.com</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开启dashboard</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">查看列表</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> minikube addons list</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">开启dashboard,开启heapster</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> minikube dashboard</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> minikube addons <span class="built_in">enable</span> heapster </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">查看dashboard是否安装成功</span></span><br><span class="line">kubectl log kubernetes-dashboard-xxxxx -n kube-system</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">创建svc-nodepart.yaml</span></span><br><span class="line">cat &gt; svc-nodepart.yaml &lt;&lt; EOF</span><br><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:	</span><br><span class="line">  name: netty</span><br><span class="line">  labels:</span><br><span class="line">    app: gateway-netty</span><br><span class="line">spec:</span><br><span class="line">  ports:</span><br><span class="line">  - port: 8843</span><br><span class="line">    name: gateway-netty</span><br><span class="line">    nodePort:30000</span><br><span class="line">  selector:</span><br><span class="line">    app: gateway-netty</span><br><span class="line">  type: NodePort</span><br><span class="line">EOF</span><br><span class="line"><span class="meta">#</span><span class="bash">创建端口映射</span></span><br><span class="line">kubectl apply -f svc-nodepart.yaml -n kube-system</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>参考链接：<br><a href="https://www.jianshu.com/p/18441c7434a6" target="_blank" rel="noopener">minikube国内安装步骤 - 简书</a><br>比较权威，但是仍然不对<a href="https://yq.aliyun.com/articles/221687?spm=a2c4e.11153940.0.0.59fb4cecfe6SsI&p=3#comments" target="_blank" rel="noopener">Minikube - Kubernetes本地实验环境-云栖社区-阿里云</a></p>
+<h2 id="microk8s-不完整"><a href="#microk8s-不完整" class="headerlink" title="microk8s(不完整)"></a>microk8s(不完整)</h2><p>参考链接：<br><a href="https://www.cnblogs.com/xiao987334176/p/10931290.html" target="_blank" rel="noopener">microk8s 搭建 - 肖祥 - 博客园</a></p>
+<ol>
+<li><p>安装snap</p>
+</li>
+<li><p>安装最新版microk8s<br>snap install microk8s —classic</p>
+</li>
+<li><p>安装docker<br>microk8s 1.14之后就不包含docker命令了，需要的可以下载之前的版本<br>snap install microk8s —classic —channel=1.13/stable</p>
+<p>apt-get install docker.io</p>
+</li>
+</ol>
+<h3 id="问题解决"><a href="#问题解决" class="headerlink" title="问题解决"></a>问题解决</h3><ol>
+<li>解决heapster镜像拉取问题<br>必看参考链接：<a href="https://segmentfault.com/a/1190000019534913?utm_source=tag-newest" target="_blank" rel="noopener">microk8s安装过程中遇到的几个问题 -  - SegmentFault 思否</a><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">拉取国内镜像</span></span><br><span class="line">docker pull mirrorgooglecontainers/$imageName:$imageVersion</span><br><span class="line"><span class="meta">#</span><span class="bash">重新标记</span></span><br><span class="line">docker tag  mirrorgooglecontainers/$imageName:$imageVersion k8s.gcr.io/$imageName:$imageVersion</span><br><span class="line"><span class="meta">#</span><span class="bash">保存到本地</span></span><br><span class="line">docker save k8s.gcr.io/$imageName:$imageVersion &gt; $imageName.tar</span><br><span class="line"></span><br><span class="line">microk8s.ctr -n k8s.io image import $imageName.tar</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">拉取国内镜像重新打包</span></span><br><span class="line">docker pull mirrorgooglecontainers/pause:3.1</span><br><span class="line">docker pull mirrorgooglecontainers/heapster-influxdb-amd64:v1.3.3</span><br><span class="line">docker pull mirrorgooglecontainers/heapster-grafana-amd64:v4.4.3</span><br><span class="line">docker pull mirrorgooglecontainers/kubernetes-dashboard-amd64:v1.8.3</span><br><span class="line">docker pull mirrorgooglecontainers/heapster-amd64:v1.5.2</span><br><span class="line">docker pull mirrorgooglecontainers/k8s-dns-dnsmasq-nanny-amd64:1.14.7</span><br><span class="line">docker pull mirrorgooglecontainers/k8s-dns-kube-dns-amd64:1.14.7</span><br><span class="line">docker pull mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.7</span><br><span class="line"></span><br><span class="line">docker tag mirrorgooglecontainers/pause:3.1 k8s.gcr.io/pause:3.1</span><br><span class="line">docker tag mirrorgooglecontainers/heapster-influxdb-amd64:v1.3.3 k8s.gcr.io/heapster-influxdb-amd64:v1.3.3</span><br><span class="line">docker tag mirrorgooglecontainers/heapster-grafana-amd64:v4.4.3 k8s.gcr.io/heapster-grafana-amd64:v4.4.3</span><br><span class="line">docker tag mirrorgooglecontainers/kubernetes-dashboard-amd64:v1.8.3 k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.3</span><br><span class="line">docker tag mirrorgooglecontainers/heapster-amd64:v1.5.2 k8s.gcr.io/heapster-amd64:v1.5.2</span><br><span class="line">docker tag mirrorgooglecontainers/k8s-dns-dnsmasq-nanny-amd64:1.14.7 gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64:1.14.7</span><br><span class="line">docker tag mirrorgooglecontainers/k8s-dns-kube-dns-amd64:1.14.7 gcr.io/google_containers/k8s-dns-kube-dns-amd64:1.14.7</span><br><span class="line">docker tag mirrorgooglecontainers/k8s-dns-sidecar-amd64:1.14.7 gcr.io/google_containers/k8s-dns-sidecar-amd64:1.14.7</span><br><span class="line"></span><br><span class="line">docker save k8s.gcr.io/pause &gt; pause.tar</span><br><span class="line">docker save k8s.gcr.io/heapster-influxdb-amd64 &gt; heapster-influxdb-amd64.tar</span><br><span class="line">docker save k8s.gcr.io/heapster-grafana-amd64 &gt; heapster-grafana-amd64.tar</span><br><span class="line">docker save k8s.gcr.io/kubernetes-dashboard-amd64 &gt; kubernetes-dashboard-amd64.tar</span><br><span class="line">docker save k8s.gcr.io/heapster-amd64 &gt; heapster-amd64.tar</span><br><span class="line">docker save gcr.io/google_containers/k8s-dns-dnsmasq-nanny-amd64 &gt; k8s-dns-dnsmasq-nanny-amd64.tar</span><br><span class="line">docker save gcr.io/google_containers/k8s-dns-kube-dns-amd64 &gt; k8s-dns-kube-dns-amd64.tar</span><br><span class="line">docker save gcr.io/google_containers/k8s-dns-sidecar-amd64 &gt; k8s-dns-sidecar-amd64.tar</span><br><span class="line"></span><br><span class="line">microk8s.ctr -n k8s.io image import pause.tar</span><br><span class="line">microk8s.ctr -n k8s.io image import heapster-influxdb-amd64.tar</span><br><span class="line">microk8s.ctr -n k8s.io image import heapster-grafana-amd64.tar</span><br><span class="line">microk8s.ctr -n k8s.io image import kubernetes-dashboard-amd64.tar</span><br><span class="line">microk8s.ctr -n k8s.io image import heapster-amd64.tar</span><br><span class="line">microk8s.ctr -n k8s.io image import k8s-dns-dnsmasq-nanny-amd64.tar</span><br><span class="line">microk8s.ctr -n k8s.io image import k8s-dns-kube-dns-amd64.tar</span><br><span class="line">microk8s.ctr -n k8s.io image import k8s-dns-sidecar-amd64.tar</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+</li>
+</ol>
+<h2 id="kbadmin部署"><a href="#kbadmin部署" class="headerlink" title="kbadmin部署"></a>kbadmin部署</h2><ol>
+<li>准备工作</li>
+<li>所有节点安装工具（1,2两步所有节点都需要操作）;</li>
+<li>部署Kuberneter Master;</li>
+<li>部署Kubernetes Worker;</li>
+<li>部署Dashboard可视化插件;</li>
+<li>部署容器存储插件;</li>
+</ol>
+<h3 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h3><ol>
+<li><p>关闭防火墙</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo ufw <span class="built_in">disable</span></span></span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ol>
+<ol start="2">
+<li><p>禁用SELINUX</p>
+   <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo vi /etc/selinux/config</span></span><br><span class="line">SELINUX=permissive</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>开启数据包转发</p>
+<ol>
+<li><p>内核开启ipv4转发</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo vim /etc/sysctl.conf</span></span><br><span class="line">    net.ipv4.ip_forward = 1  #开启ipv4转发，允许内置路由</span><br><span class="line">    #使之生效</span><br><span class="line">    $ sudo sysctl -p</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>防火墙修改FORWARD链默认策略</p>
+<p>设置docker启动参数添加<code>--iptables=false</code>选项，使docker不再操作iptables，比如1.10版以上可编辑docker daemon默认配置文件<code>/etc/docker/daemon.json</code>:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    "iptables": false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+</li>
+<li><p>禁用swap</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo swapoff -a </span></span><br><span class="line"><span class="meta">#</span><span class="bash">同时还需要修改/etc/fstab文件，注释掉 SWAP 的自动挂载，防止机子重启后swap启用。</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<ol start="5">
+<li><p>配置iptables参数，使得流经网桥的流量也经过iptables/netfilter防火墙</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> sudo tee /etc/sysctl.d/k8s.conf &lt;&lt;-<span class="string">'EOF'</span></span></span><br><span class="line">net.bridge.bridge-nf-call-ip6tables = 1</span><br><span class="line">net.bridge.bridge-nf-call-iptables = 1</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo sysctl --system</span></span><br></pre></td></tr></table></figure>
+
+
+
+</li>
+</ol>
+<h3 id="2-所有节点安装工具"><a href="#2-所有节点安装工具" class="headerlink" title="2.所有节点安装工具"></a>2.所有节点安装工具</h3><ol>
+<li>docker</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 卸载旧docker</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get remove docker docker-engine docker.io </span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 安装依赖，使得apt可以使用https</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install \</span></span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    software-properties-common</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span><span class="bash">添加docker的GPG key</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">设置docker镜像源</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo add-apt-repository \</span></span><br><span class="line">   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span><br><span class="line"><span class="meta">   $</span><span class="bash">(lsb_release -cs) \</span></span><br><span class="line">   stable"</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">安装指定版本docker-ce</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get install -y docker-ce=5:18.09.0~3-0~ubuntu-bionic</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">设置开机启动docker</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo systemctl <span class="built_in">enable</span> docker &amp;&amp; sudo systemctl start docker</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">将当前登录用户加入到docker用户组中</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo usermod -aG docker xxx</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">docker启动参数配置</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo tee /etc/docker/daemon.json &lt;&lt;-<span class="string">'EOF'</span></span></span><br><span class="line">&#123;</span><br><span class="line"> "iptables": false,</span><br><span class="line"> "ip-masq": false,</span><br><span class="line"> "storage-driver": "overlay2",</span><br><span class="line"> "graph": "/home/docker"</span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo systemctl restart docker</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>下载Kubernetes镜像</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">docker pull richarddockerimage/kube-proxy-v15</span><br><span class="line">docker pull richarddockerimage/kube-scheduler-v15</span><br><span class="line">docker pull richarddockerimage/kube-controller-manager-v15</span><br><span class="line">docker pull richarddockerimage/kube-apiserver-v15</span><br><span class="line">docker pull richarddockerimage/etcd</span><br><span class="line">docker pull richarddockerimage/pause-v15</span><br><span class="line">docker pull richarddockerimage/coredns-v15</span><br><span class="line"></span><br><span class="line">docker tag richarddockerimage/kube-proxy-v15 k8s.gcr.io/kube-proxy:v1.15.0</span><br><span class="line">docker tag richarddockerimage/kube-scheduler-v15 k8s.gcr.io/kube-scheduler:v1.15.0</span><br><span class="line">docker tag richarddockerimage/kube-controller-manager-v15 k8s.gcr.io/kube-controller-manager:v1.15.0</span><br><span class="line">docker tag richarddockerimage/kube-apiserver-v15 k8s.gcr.io/kube-apiserver:v1.15.0</span><br><span class="line">docker tag richarddockerimage/etcd k8s.gcr.io/etcd:3.3.10</span><br><span class="line">docker tag richarddockerimage/pause-v15 k8s.gcr.io/pause:3.1</span><br><span class="line">docker tag richarddockerimage/coredns-v15 k8s.gcr.io/coredns:1.3.1</span><br><span class="line"></span><br><span class="line">docker rmi richarddockerimage/kube-proxy-v15</span><br><span class="line">docker rmi richarddockerimage/kube-scheduler-v15</span><br><span class="line">docker rmi richarddockerimage/kube-controller-manager-v15</span><br><span class="line">docker rmi richarddockerimage/kube-apiserver-v15</span><br><span class="line">docker rmi richarddockerimage/etcd</span><br><span class="line">docker rmi richarddockerimage/pause-v15</span><br><span class="line">docker rmi richarddockerimage/coredns-v15</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="3-部署Kuberneter-Master"><a href="#3-部署Kuberneter-Master" class="headerlink" title="3.部署Kuberneter Master"></a>3.部署Kuberneter Master</h3><ol>
+<li>安装kubeadm、kubelet、kubectl</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">创建kubernetes的<span class="built_in">source</span>文件</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get update &amp;&amp; sudo apt-get install -y apt-transport-https curl</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo curl -s https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add -</span></span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo tee /etc/apt/sources.list.d/kubernetes.list &lt;&lt;-<span class="string">'EOF'</span></span></span><br><span class="line">deb https://mirrors.aliyun.com/kubernetes/apt kubernetes-xenial main</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo apt-get update</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">安装指定版本的kudeadm kubelet kubectl</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> apt install -y kubelet=1.15.0-00 kubeadm=1.15.0-00 kubectl=1.15.0-00</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">设置开机启动</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo systemctl <span class="built_in">enable</span> kubelet &amp;&amp; sudo systemctl start kubelet</span></span><br></pre></td></tr></table></figure>
+
+
+
+<ol start="2">
+<li>初始化kubernetes</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> kubeadm init --kubernetes-version=v1.15.0 --pod-network-cidr=10.244.0.0/16 --service-cidr=10.96.0.0/12</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">配置集群管理员</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> mkdir -p <span class="variable">$HOME</span>/.kube</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo cp -i /etc/kubernetes/admin.conf <span class="variable">$HOME</span>/.kube/config</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> sudo chown $(id -u):$(id -g) <span class="variable">$HOME</span>/.kube/config</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">记录加入集群的令牌</span></span><br><span class="line">kubeadm join 10.3.0.50:6443 --token w1bc9h.wjhqbki4xc7drvoe \</span><br><span class="line">    --discovery-token-ca-cert-hash sha256:b2ebcbee78bdf675e3a2ea8b5676f5e1ab3f5496eefe3732c6abca507ea7af84</span><br><span class="line">    </span><br><span class="line"><span class="meta">#</span><span class="bash">部署网络插件</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> kubectl apply -f https://git.io/weave-kube-1.6</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="4-部署Kubernetes-Worker"><a href="#4-部署Kubernetes-Worker" class="headerlink" title="4.部署Kubernetes Worker"></a>4.部署Kubernetes Worker</h3><ol>
+<li>安装kubelet、kubeadm</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> cat &lt;&lt;EOF &gt; /etc/yum.repos.d/kubernetes.repo</span></span><br><span class="line">[kubernetes]</span><br><span class="line">name=Kubernetes</span><br><span class="line">baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/</span><br><span class="line">enabled=1</span><br><span class="line">gpgcheck=1</span><br><span class="line">repo_gpgcheck=1</span><br><span class="line">gpgkey=https://mirrors.aliyun.com/kubernetes/yum/doc/yum-key.gpg https://mirrors.aliyun.com/kubernetes/yum/doc/rpm-package-key.gpg</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> apt-get install -y kubelet=1.15.0-00 kubeadm=1.15.0-00</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> systemctl <span class="built_in">enable</span> kubelet</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>加入集群</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">直接执行master记录的集群令牌</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> kubeadm join 10.3.0.50:6443 --token w1bc9h.wjhqbki4xc7drvoe \</span></span><br><span class="line">    --discovery-token-ca-cert-hash sha256:b2ebcbee78bdf675e3a2ea8b5676f5e1ab3f5496eefe3732c6abca507ea7af84</span><br></pre></td></tr></table></figure>
+
+<p>问题：子节点看不到所有node运行状态，master上可以看到？？</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"># k8s</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/19/K8s%E5%9F%BA%E6%9C%AC%E7%BB%84%E6%88%90/" rel="next" title="K8s基本组成">
+                <i class="fa fa-chevron-left"></i> K8s基本组成
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="lahmxu" />
+            
+              <p class="site-author-name" itemprop="name">lahmxu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#minikube部署"><span class="nav-number">1.</span> <span class="nav-text">minikube部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#microk8s-不完整"><span class="nav-number">2.</span> <span class="nav-text">microk8s(不完整)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#问题解决"><span class="nav-number">2.1.</span> <span class="nav-text">问题解决</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#kbadmin部署"><span class="nav-number">3.</span> <span class="nav-text">kbadmin部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-准备工作"><span class="nav-number">3.1.</span> <span class="nav-text">1.准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-所有节点安装工具"><span class="nav-number">3.2.</span> <span class="nav-text">2.所有节点安装工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-部署Kuberneter-Master"><span class="nav-number">3.3.</span> <span class="nav-text">3.部署Kuberneter Master</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-部署Kubernetes-Worker"><span class="nav-number">3.4.</span> <span class="nav-text">4.部署Kubernetes Worker</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2019 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lahmxu</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

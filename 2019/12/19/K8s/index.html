@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="k8s," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="docker   它被宿主机操作系统隔离了，它看不到宿主机上的其他进程，以为自己就是pid为1的进程  它被宿主机操作系统限制了硬件资源，它能使用的cpu、内存等硬件资源只是宿主机的一部分  在被宿主机操作系统限制了存储空间，让这个进程认为宿主机的某个目录就是系统根目录   Namespace做隔离，Cgroups做限制，rootfs做文件系统 容器是操作系统层级的虚拟化，而虚拟机是硬件层级的虚拟">
+<meta name="keywords" content="k8s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K8s">
+<meta property="og:url" content="http:&#x2F;&#x2F;yoursite.com&#x2F;2019&#x2F;12&#x2F;19&#x2F;K8s&#x2F;index.html">
+<meta property="og:site_name" content="lahmxu">
+<meta property="og:description" content="docker   它被宿主机操作系统隔离了，它看不到宿主机上的其他进程，以为自己就是pid为1的进程  它被宿主机操作系统限制了硬件资源，它能使用的cpu、内存等硬件资源只是宿主机的一部分  在被宿主机操作系统限制了存储空间，让这个进程认为宿主机的某个目录就是系统根目录   Namespace做隔离，Cgroups做限制，rootfs做文件系统 容器是操作系统层级的虚拟化，而虚拟机是硬件层级的虚拟">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;EB6EDD19-F7E7-445B-B35C-0B570E411FD5.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;BA64038A-100C-4BEA-9731-8F44FE00DED6.png">
+<meta property="og:updated_time" content="2019-12-19T15:24:52.321Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;yoursite.com&#x2F;images&#x2F;EB6EDD19-F7E7-445B-B35C-0B570E411FD5.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/12/19/K8s/"/>
+
+
+
+
+
+  <title>K8s | lahmxu</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">lahmxu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description"></h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/19/K8s/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="lahmxu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="lahmxu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">K8s</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-12-19T14:48:39+08:00">
+                2019-12-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/k8s/" itemprop="url" rel="index">
+                    <span itemprop="name">k8s</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h1><p><img src="/images/EB6EDD19-F7E7-445B-B35C-0B570E411FD5.png" alt=""></p>
+<p><img src="/images/BA64038A-100C-4BEA-9731-8F44FE00DED6.png" alt=""></p>
+<ul>
+<li><p>它被宿主机操作系统隔离了，它看不到宿主机上的其他进程，以为自己就是pid为1的进程</p>
+</li>
+<li><p>它被宿主机操作系统限制了硬件资源，它能使用的cpu、内存等硬件资源只是宿主机的一部分</p>
+</li>
+<li><p>在被宿主机操作系统限制了存储空间，让这个进程认为宿主机的某个目录就是系统根目录</p>
+</li>
+</ul>
+<p><code>Namespace做隔离，Cgroups做限制，rootfs做文件系统</code></p>
+<p><code>容器是操作系统层级的虚拟化，而虚拟机是硬件层级的虚拟化。—本质区别</code></p>
+<h3 id="为什么用K8s？"><a href="#为什么用K8s？" class="headerlink" title="为什么用K8s？"></a>为什么用K8s？</h3><ul>
+<li><p><strong>自愈</strong>重新启动失败的容器，在节点不可用时，替换和重新调度节点上的容器，对用户定义的健康检查不响应的容器会被中止，并且在容器准备好服务之前不会把其向客户端广播。</p>
+</li>
+<li><p><strong>弹性伸缩</strong>通过监控容器的cpu的负载值,如果这个平均高于80%,增加容器的数量,如果这个平均低于10%,减少容器的数量</p>
+</li>
+<li><p><strong>服务的自动发现和负载均衡</strong> 不需要修改您的应用程序来使用不熟悉的服务发现机制，Kubernetes 为容器提供了自己的 IP 地址和一组容器的单个 DNS 名称，并可以在它们之间进行负载均衡。</p>
+</li>
+<li><p><strong>滚动升级和一键回滚</strong> Kubernetes 逐渐部署对应用程序或其配置的更改，同时监视应用程序运行状况，以确保它不会同时终止所有实例。 如果出现问题，Kubernetes会为您恢复更改，利用日益增长的部署解决方案的生态系统。</p>
+</li>
+</ul>
+<p><strong>容器的本质是进程，Kuberbetes的本质是操作系统。</strong></p>
+<h2 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h2><ul>
+<li><p>节点：Kubernetes集群中的一台物理机或者虚拟机。</p>
+</li>
+<li><p>集群：位于Internet防火墙后的节点，这是kubernetes管理的主要计算资源。</p>
+</li>
+<li><p>边界路由器：为集群强制执行防火墙策略的路由器。 这可能是由云提供商或物理硬件管理的网关。</p>
+</li>
+<li><p>集群网络：一组逻辑或物理链接，可根据Kubernetes <a href="https://kubernetes.io/docs/admin/networking/" target="_blank" rel="noopener">网络模型</a> 实现群集内的通信。 集群网络的实现包括Overlay模型的  <a href="https://github.com/coreos/flannel#flannel" target="_blank" rel="noopener">flannel</a>  和基于SDN的 <a href="https://kubernetes.io/docs/admin/ovs-networking/" target="_blank" rel="noopener">OVS</a> 。</p>
+</li>
+<li><p>服务：使用标签选择器标识一组pod成为的Kubernetes <a href="https://kubernetes.io/docs/user-guide/services/" target="_blank" rel="noopener">服务</a> 。 除非另有说明，否则服务假定在集群网络内仅可通过虚拟IP访问。</p>
+</li>
+</ul>
+<h4 id="k8s集群"><a href="#k8s集群" class="headerlink" title="k8s集群"></a>k8s集群</h4><ol>
+<li><p>基本结构</p>
+<p><a href="bear://x-callback-url/open-note?id=5314B7B3-F264-4CC2-9E50-A93D3577CFB1-4812-00002334F7F273B0" target="_blank" rel="noopener">Kubernetes集群组成</a></p>
+</li>
+<li><p>Pod</p>
+<p><a href="">K8s Pod</a></p>
+</li>
+<li><p>Controller</p>
+<p><a href="bear://x-callback-url/open-note?id=1536AC3D-0184-4431-9622-5858722B89E9-4812-00002303180088F1" target="_blank" rel="noopener">K8s Controller</a></p>
+</li>
+<li><p>Service </p>
+<p><a href="bear://x-callback-url/open-note?id=C7C276E4-706F-4BCD-8AB1-01A9B948A279-721-00008FFECCE992F0" target="_blank" rel="noopener">K8s Service</a></p>
+</li>
+<li><p>PV&amp;PVC</p>
+<p><a href="https://blog.csdn.net/xts_huangxin/article/details/51494472" target="_blank" rel="noopener">K8s PV&amp;PVC</a> </p>
+</li>
+<li><p>ConfigMap&amp;Secret</p>
+<p><a href="https://www.kubernetes.org.cn/3400.html" target="_blank" rel="noopener">ConfigMapSecret</a></p>
+<ul>
+<li><p>ConfigMap：存储配置信息</p>
+</li>
+<li><p>Secret ：存储秘钥和密码之类的信息</p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="什么是声明式API？声明式API的使用"><a href="#什么是声明式API？声明式API的使用" class="headerlink" title="什么是声明式API？声明式API的使用"></a>什么是声明式API？声明式API的使用</h3><p><strong>为什么叫“声明”API ？</strong></p>
+<ol>
+<li><p>常用命令</p>
+<p><a href="bear://x-callback-url/open-note?id=BC8D7730-F8CD-4042-A5B2-FEEB4BB16A4A-340-0000121439F75784" target="_blank" rel="noopener">kubectl命令</a></p>
+</li>
+<li><p>kubectl create/replace和kubectl apply有什么不同？</p>
+<ul>
+<li><p>命令式配置文件操作，类似于Docker Swarm</p>
+</li>
+<li><p>声明式API</p>
+</li>
+</ul>
+</li>
+</ol>
+<p> <strong>不同点</strong></p>
+<ul>
+<li><p>命令式API对象是使用新的YAML文件中的API对象替换原有的API对象，而声明式API执行了对原有API对象的PATCH操作</p>
+</li>
+<li><p>声明式API一次可以处理多个写操作，具备merge的能力</p>
+<ol start="3">
+<li>滚动更新 </li>
+</ol>
+</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#新建yaml文件</span></span><br><span class="line"></span><br><span class="line"><span class="string">cat</span> <span class="string">&gt;</span> <span class="string">nginx-deployment.yaml</span> <span class="string">&lt;&lt;</span> <span class="string">EOF</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nginx-deployment</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">3</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span></span><br><span class="line">      <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">nginx</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nginx</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">nginx:1.7.9</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">80</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#创建Pod</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">apply</span> <span class="string">-f</span> <span class="string">nginx-deployment.yaml</span> <span class="string">--record</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看Pod创建状态</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">get</span> <span class="string">pod</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#用edit命令修改yaml文件</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">edit</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#使用rollout查看滚动更新过程</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">status</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看详细更新过程</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">describe</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看更新的replicaSet</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">get</span> <span class="string">rs</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#更改成错误的镜像1.7.9 --&gt; 1.91</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看当前rs pod状态</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#中止滚动更新</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">pause</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#恢复滚动更新</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">resume</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#回退</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#回退上一个版本</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">undo</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#回退指定版本</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">history</span> <span class="string">deployment</span> <span class="string">nginx-deployment</span></span><br><span class="line"></span><br><span class="line"><span class="string">kubectl</span> <span class="string">rollout</span> <span class="string">undo</span> <span class="string">deployment/nginx-deployment</span> <span class="string">--to-revision=2</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="三种部署方式"><a href="#三种部署方式" class="headerlink" title="三种部署方式"></a>三种部署方式</h3><ol>
+<li><p><a href="见下文">kubeadm安装</a></p>
+</li>
+<li><p><a href="bear://x-callback-url/open-note?id=79092069-EC2F-4B5D-9C66-D63A6002ECFB-721-0000682A1C954242" target="_blank" rel="noopener">minikube安装</a> </p>
+</li>
+<li><p><a href="bear://x-callback-url/open-note?id=59513F55-3EBB-4CF7-BDDF-94EDFAEA3738-81658-0001C8E81DC84061" target="_blank" rel="noopener">microK8s安装</a></p>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/k8s/" rel="tag"># k8s</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/12/19/K8s%20Pod/" rel="prev" title="K8s Pod">
+                K8s Pod <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/avatar.gif"
+                alt="lahmxu" />
+            
+              <p class="site-author-name" itemprop="name">lahmxu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#docker"><span class="nav-number">1.</span> <span class="nav-text">docker</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么用K8s？"><span class="nav-number">1.0.1.</span> <span class="nav-text">为什么用K8s？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#术语"><span class="nav-number">1.1.</span> <span class="nav-text">术语</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#k8s集群"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">k8s集群</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是声明式API？声明式API的使用"><span class="nav-number">1.1.1.</span> <span class="nav-text">什么是声明式API？声明式API的使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三种部署方式"><span class="nav-number">1.1.2.</span> <span class="nav-text">三种部署方式</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">lahmxu</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
