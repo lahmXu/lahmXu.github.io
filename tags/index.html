@@ -320,7 +320,7 @@
 
   
 
-
+  
 
         </div>
         
@@ -612,6 +612,24 @@
 
 
 
+
+
+
+  <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+  <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+  <div id="gitalk-container"></div>
+  <script type="text/javascript">
+    var gitalk = new Gitalk({
+      clientID: 'ef613552bf3d772c024a',
+      clientSecret: '11f0aa4929e10fb9b2abf5bf45f0e80ac6128f7e',
+      repo: 'github_comments',
+      owner: 'lahmxu',
+      admin: ['lahmxu'],
+      id: location.pathname,
+      distractionFreeMode: 'false'
+    })
+    gitalk.render('gitalk-container')
+  </script>
 
 
 
