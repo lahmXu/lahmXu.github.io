@@ -86,7 +86,7 @@
 <meta property="og:site_name" content="烂笔头">
 <meta property="og:description" content="​    每个人在自己的一生中都有自己需要努力的阶段， ​    有的人在上学阶段， ​    有的人在刚工作的那几年， ​    有的人在不惑之年… ​    如果能幡然醒悟，奋发图强，那么任何一个时间都不算晚， ​    这种心无旁骛努力的感觉是非常值得珍藏的 ​     ​    联系邮箱：lahm.xu@foxmail.com  ​    欢迎交流">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-03-31T15:26:21.782Z">
+<meta property="og:updated_time" content="2020-04-01T14:59:56.268Z">
 <meta name="twitter:card" content="summary">
 
 
@@ -217,35 +217,11 @@
           </a>
         </li>
       
-        
-        <li class="menu-item menu-item-schedule">
-          <a href="/schedule/%20" rel="section">
-            
-            日程表
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-sitemap">
-          <a href="/sitemap.xml%20" rel="section">
-            
-            站点地图
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-commonweal">
-          <a href="/404/%20" rel="section">
-            
-            公益404
-          </a>
-        </li>
-      
 
       
         <li class="menu-item menu-item-search">
           
-            <a href="javascript:;" target="_blank" rel="noopener" class="popup-trigger">
+            <a href="javascript:;" class="popup-trigger">
           
             
             搜索
@@ -338,6 +314,13 @@
 
 
           
+
+  
+    <div class="comments" id="comments">
+      
+        <div id="gitment-container"></div>
+      
+    </div>
 
   
 
@@ -594,6 +577,43 @@
 
 
 
+<!-- LOCAL: You can save these files to your site and update links -->
+    
+        
+        <link rel="stylesheet" href="https://aimingoo.github.io/gitmint/style/default.css">
+        <script src="https://aimingoo.github.io/gitmint/dist/gitmint.browser.js"></script>
+    
+<!-- END LOCAL -->
+
+    
+
+    
+      <script type="text/javascript">
+      function renderGitment(){
+        var gitment = new Gitmint({
+            id: window.location.pathname, 
+            owner: 'lahmXu',
+            repo: 'comments',
+            
+            lang: "" || navigator.language || navigator.systemLanguage || navigator.userLanguage,
+            
+            oauth: {
+            
+            
+                client_secret: '11f0aa4929e10fb9b2abf5bf45f0e80ac6128f7e',
+            
+                client_id: 'ef613552bf3d772c024a'
+            }});
+        gitment.render('gitment-container');
+      }
+
+      
+      renderGitment();
+      
+      </script>
+    
+
+
 
 
 
@@ -606,7 +626,7 @@
     var isfetched = false;
     var isXml = true;
     // Search DB path;
-    var search_path = "./node_modules/hexo-generator-search/templates/search.xml";
+    var search_path = "search.xml";
     if (search_path.length === 0) {
       search_path = "search.xml";
     } else if (/json$/i.test(search_path)) {
