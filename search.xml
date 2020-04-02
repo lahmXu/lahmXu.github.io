@@ -68,7 +68,7 @@
 <ol>
 <li>常用命令</li>
 </ol>
-<p><img src="/images/bVbrFZN.png" alt></p>
+<p><img src="../../images/bVbrFZN.png" alt></p>
 <p>参考链接：<a href="https://segmentfault.com/a/1190000018950372" target="_blank" rel="noopener">Kubectl常用命令详解 - Kubernetes,Istio点滴 - SegmentFault 思否</a></p>
 <ol start="2">
 <li><p>kubectl create/replace和kubectl apply有什么不同？</p>
